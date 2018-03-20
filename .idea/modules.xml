@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Event_creator_326/Event_creator_326.iml" filepath="$PROJECT_DIR$/Event_creator_326/Event_creator_326.iml" />
       <module fileurl="file://$PROJECT_DIR$/Event_creator_326_c/Event_creator_326_c.iml" filepath="$PROJECT_DIR$/Event_creator_326_c/Event_creator_326_c.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SenderP2P_326/SenderP2P_326.iml" filepath="$PROJECT_DIR$/SenderP2P_326/SenderP2P_326.iml" />
     </modules>
   </component>
 </project>
