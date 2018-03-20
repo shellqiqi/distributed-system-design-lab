@@ -148,7 +148,7 @@ public class EventCreator {
             e.printStackTrace();
         }
         int random2 = new Random().nextInt(5) + 1;
-        broadcast(new Message(0, random2, dateFormat.format(new Date())));
+        broadcast(new Message(1, random2, dateFormat.format(new Date())));
     }
 
     /**
