@@ -8,13 +8,15 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Event_creator_326" />
         <module name="Event_creator_326_c" />
+        <module name="SenderAll_326" />
         <module name="SenderP2P_326" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
-      <module name="Event_creator_326" target="1.8" />
-      <module name="Event_creator_326_c" target="1.8" />
-      <module name="SenderP2P_326" target="1.8" />
+      <module name="Event_creator_326" target="1.5" />
+      <module name="Event_creator_326_c" target="1.5" />
+      <module name="SenderAll_326" target="1.5" />
+      <module name="SenderP2P_326" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
