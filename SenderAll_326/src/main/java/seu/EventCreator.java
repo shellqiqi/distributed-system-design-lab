@@ -2,7 +2,6 @@ package seu;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -16,33 +15,19 @@ public class EventCreator {
     private Random random;
     private SimpleDateFormat dateFormat;
 
-    private final static int PORT888 = 888;
-    private final static int PORT999 = 999;
-
-    private ServerSocket serverSocketFor888;
-    private ServerSocket serverSocketFor999;
-    private Socket socketFor888;
-    private Socket socketFor999;
     private ObjectOutputStream outputStreamFor888;
     private ObjectOutputStream outputStreamFor999;
 
     public EventCreator(int seed) {
         this.random = new Random(seed);
         this.dateFormat = new SimpleDateFormat("HH:mm:ss:SSS");
-
-        try {
-            serverSocketFor888 = new ServerSocket(PORT888);
-            serverSocketFor999 = new ServerSocket(PORT999);
-            socketFor888 = serverSocketFor888.accept(); // 阻塞方法
-            socketFor999 = serverSocketFor999.accept(); // 阻塞方法
-            outputStreamFor888 = new ObjectOutputStream(socketFor888.getOutputStream());
-            outputStreamFor999 = new ObjectOutputStream(socketFor999.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
-    public void start(int timeout) {
+    public void start(String host1, String host2, int timeout) throws IOException {
+        Socket socketFor888 = new Socket(host1, 888);
+        Socket socketFor999 = new Socket(host2, 999);
+        outputStreamFor888 = new ObjectOutputStream(socketFor888.getOutputStream());
+        outputStreamFor999 = new ObjectOutputStream(socketFor999.getOutputStream());
         System.out.printf("%-10s%-10s%-15s\n", "random1", "random2", "timer");
         Date start = new Date();
         for (int i = 1; i <= 20; i++) {
@@ -68,17 +53,11 @@ public class EventCreator {
                 }
             }
         }
-        try {
-            outputStreamFor888.close();
-            outputStreamFor999.close();
-            socketFor888.close();
-            socketFor999.close();
-            serverSocketFor888.close();
-            serverSocketFor999.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Server socket closed.");
+        outputStreamFor888.close();
+        outputStreamFor999.close();
+        socketFor888.close();
+        socketFor999.close();
+        System.out.println("Done.");
     }
 
     /**
