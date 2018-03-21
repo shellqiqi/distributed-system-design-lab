@@ -6,20 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Event_creator_326" />
-        <module name="Event_creator_326_c" />
-        <module name="Recipient1_326" />
-        <module name="Recipient2_326" />
-        <module name="SenderAll_326" />
         <module name="SenderP2P_326" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.8">
-      <module name="Event_creator_326" target="1.5" />
-      <module name="Event_creator_326_c" target="1.5" />
-      <module name="Recipient1_326" target="1.5" />
-      <module name="Recipient2_326" target="1.5" />
-      <module name="SenderAll_326" target="1.5" />
+    <bytecodeTargetLevel>
       <module name="SenderP2P_326" target="1.5" />
     </bytecodeTargetLevel>
   </component>
