@@ -4,6 +4,8 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/SenderP2P_326/pom.xml" />
+        <option value="$PROJECT_DIR$/Recipient1_326/pom.xml" />
+        <option value="$PROJECT_DIR$/Recipient2_326/pom.xml" />
       </list>
     </option>
   </component>

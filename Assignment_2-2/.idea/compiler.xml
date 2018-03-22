@@ -6,10 +6,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="Recipient1_326" />
+        <module name="Recipient2_326" />
         <module name="SenderP2P_326" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="Recipient1_326" target="1.5" />
+      <module name="Recipient2_326" target="1.5" />
       <module name="SenderP2P_326" target="1.5" />
     </bytecodeTargetLevel>
   </component>
