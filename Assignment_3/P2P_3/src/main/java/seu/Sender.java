@@ -75,15 +75,16 @@ public class Sender implements Runnable {
         socket.close();
     }
 
-    private void send(int i) throws IOException {
+    private void send(int i) throws IOException, InterruptedException {
         connect(i);
         lock.lock();
         int transmission = App.resource / 4;
-        outputStream.writeInt(transmission);
-        outputStream.flush();
         App.resource -= transmission;
         App.log("send", (InetSocketAddress) socket.getRemoteSocketAddress(), transmission);
         lock.unlock();
+        Thread.sleep(500);
+        outputStream.writeInt(transmission);
+        outputStream.flush();
         close();
     }
 }
