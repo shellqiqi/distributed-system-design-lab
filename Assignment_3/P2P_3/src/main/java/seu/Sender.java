@@ -31,6 +31,7 @@ public class Sender implements Runnable {
         this.random = new Random(seed);
     }
 
+    @Override
     public void run() {
         try {
             int counter1 = 0;
@@ -77,10 +78,11 @@ public class Sender implements Runnable {
     private void send(int i) throws IOException {
         connect(i);
         lock.lock();
-        int transfer = App.resource / 4;
-        outputStream.writeInt(transfer);
-        App.resource -= transfer;
-        App.log("send", (InetSocketAddress) socket.getRemoteSocketAddress(), transfer);
+        int transmission = App.resource / 4;
+        outputStream.writeInt(transmission);
+        outputStream.flush();
+        App.resource -= transmission;
+        App.log("send", (InetSocketAddress) socket.getRemoteSocketAddress(), transmission);
         lock.unlock();
         close();
     }

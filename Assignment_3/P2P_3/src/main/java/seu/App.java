@@ -16,6 +16,8 @@ public class App {
 
         System.out.print("请输入随机数种子：");
         int seed = scanner.nextInt();
+        System.out.print("请输入本机端口：");
+        int localPort = scanner.nextInt();
         System.out.print("请输入目标IP1：");
         String IP1 = scanner.next();
         System.out.print("请输入目标端口1：");
@@ -28,11 +30,11 @@ public class App {
 
         System.out.println("初始化...");
         Thread senderThread = new Thread(new Sender(IP1, port1, IP2, port2, seed));
-        //TODO: init receiver.
+        Thread receiverThread = new Thread(new Receiver(localPort));
         System.out.println("初始化结束");
 
         System.out.println("启动receiver");
-        //TODO: start receiver.
+        receiverThread.start();
         System.out.println("receiver启动结束");
 
         System.out.print("输入y启动sender：");
@@ -40,16 +42,16 @@ public class App {
             senderThread.start();
         }
 
-        //TODO: wait for receiver thread to join.
         senderThread.join();
+        receiverThread.join();
         System.out.println("程序结束");
     }
 
-    public static void log(String operation, InetSocketAddress target, int transfer) {
+    public static void log(String operation, InetSocketAddress target, int transmission) {
         System.out.printf("%-6s%-24s%-7d%-7d%-14s",
                 operation,
                 target.getAddress().getHostAddress() + ":" + target.getPort(),
-                transfer,
+                transmission,
                 resource,
                 dateFormat.format(new Date()));
     }
