@@ -39,6 +39,7 @@ public class App {
 
         System.out.print("输入y启动sender：");
         if (scanner.next().equals("y")) {
+            System.out.printf("%-6s%-24s%-7s%-7s%-14s\n", "opr", "dest", "trans", "total", "date");
             senderThread.start();
         }
 
@@ -48,7 +49,7 @@ public class App {
     }
 
     public static void log(String operation, InetSocketAddress target, int transmission) {
-        System.out.printf("%-6s%-24s%-7d%-7d%-14s",
+        System.out.printf("%-6s%-24s%-7d%-7d%-14s\n",
                 operation,
                 target.getAddress().getHostAddress() + ":" + target.getPort(),
                 transmission,

@@ -25,7 +25,7 @@ public class ReceiverThread implements Runnable {
             int transmission = inputStream.readInt();
             lock.lock();
             App.resource += transmission;
-            App.log("recv", (InetSocketAddress) socket.getRemoteSocketAddress(), transmission);
+            App.log("rcv", (InetSocketAddress) socket.getRemoteSocketAddress(), transmission);
             lock.unlock();
             inputStream.close();
             socket.close();
