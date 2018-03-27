@@ -3,34 +3,29 @@ package seu;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+import static seu.MessageUtil.*;
 
 public class MessageUtilTest {
 
+    private short message = getMessage(0b10, 12);
+
     @Test
     public void setParameterTest() {
-        MessageUtil m = new MessageUtil(0b10, 12);
-        assertEquals(m.message, 2060);
-        m.setParameter(34);
-        assertEquals(m.message, 2082);
+        assertEquals(setParameter(message, 34), 2082);
     }
 
     @Test
     public void getParameterTest() {
-        MessageUtil m = new MessageUtil(0b10, 12);
-        assertEquals(12, m.getParameter());
+        assertEquals(12, getParameter(message));
     }
 
     @Test
     public void setCodeTest() {
-        MessageUtil m = new MessageUtil(0b10, 12);
-        assertEquals(m.message, 2060);
-        m.setCode(0b11);
-        assertEquals(m.message, 3084);
+        assertEquals(setCode(message, 0b11), 3084);
     }
 
     @Test
     public void getCodeTest() {
-        MessageUtil m = new MessageUtil(0b10, 12);
-        assertEquals(0b10, m.getCode());
+        assertEquals(0b10, getCode(message));
     }
 }

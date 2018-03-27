@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import static seu.MessageUtil.*;
+
 public class ReceiverThread implements Runnable {
 
     private Socket socket;
@@ -22,10 +24,10 @@ public class ReceiverThread implements Runnable {
     public void run() {
         try {
             DataInputStream inputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-            int transmission = inputStream.readInt();
+            short message = inputStream.readShort();
             lock.lock();
-            App.resource += transmission;
-            App.log("rcv", (InetSocketAddress) socket.getRemoteSocketAddress(), transmission);
+            App.resource += getParameter(message);
+            App.log("rcv", (InetSocketAddress) socket.getRemoteSocketAddress(), getParameter(message));
             lock.unlock();
             inputStream.close();
             socket.close();

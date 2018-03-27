@@ -29,7 +29,7 @@ public class App {
         System.out.println("输入参数结束");
 
         System.out.println("初始化...");
-        Thread senderThread = new Thread(new Sender(IP1, port1, IP2, port2, seed));
+        Thread senderThread = new Thread(new TransmissionEventCreator(IP1, port1, IP2, port2, seed));
         Thread receiverThread = new Thread(new Receiver(localPort));
         System.out.println("初始化结束");
 
