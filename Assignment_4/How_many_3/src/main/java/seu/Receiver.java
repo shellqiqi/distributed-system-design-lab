@@ -17,7 +17,7 @@ public class Receiver implements Runnable {
         ServerSocket serverSocket;
         try {
             serverSocket = new ServerSocket(port);
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 50; i++) {
                 Socket socket = serverSocket.accept();
                 Thread thread = new Thread(new ReceiverThread(socket));
                 thread.start();

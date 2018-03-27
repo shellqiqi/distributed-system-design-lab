@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class App {
 
-    public static int resource = 100;
+    public static int resource = 300;
 
     public static SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SSS");
 
@@ -45,7 +45,7 @@ public class App {
 
         senderThread.join();
         receiverThread.join();
-        System.out.println("程序结束");
+        System.out.println("主程序结束");
     }
 
     public static void log(String operation, InetSocketAddress target, int transmission) {

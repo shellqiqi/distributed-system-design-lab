@@ -1,12 +1,8 @@
 package seu;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Random;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import static seu.App.*;
 
@@ -17,11 +13,6 @@ public class Sender implements Runnable {
     private String IP2;
     private int port2;
     private Random random;
-
-    private Socket socket;
-    private DataOutputStream outputStream;
-
-    private Lock lock = new ReentrantLock();
 
     public Sender(String IP1, int port1, String IP2, int port2, int seed) {
         this.IP1 = IP1;
@@ -36,11 +27,11 @@ public class Sender implements Runnable {
         try {
             int counter1 = 0;
             int counter2 = 0;
-            for (int i = 0; i < 10; i++) {
-                Thread.sleep(getRandomInterval(12));
-                if (counter1 >= 5) {
+            for (int i = 0; i < 50; i++) {
+                Thread.sleep(getRandomInterval(1));
+                if (counter1 >= 25) {
                     send(2); counter2++;
-                } else if (counter2 >= 5) {
+                } else if (counter2 >= 25) {
                     send(1); counter1++;
                 } else {
                     if (random.nextBoolean()) {
@@ -55,7 +46,8 @@ public class Sender implements Runnable {
         }
     }
 
-    private void connect(int i) throws IOException {
+    private void send(int i) throws IOException {
+        Socket socket;
         switch (i) {
             case 1:
                 socket = new Socket(IP1, port1);
@@ -67,24 +59,7 @@ public class Sender implements Runnable {
                 throw new IOException("Connection argument illegal.");
         }
         socket.setSoTimeout(10000);
-        outputStream = new DataOutputStream(socket.getOutputStream());
-    }
-
-    private void close() throws IOException {
-        outputStream.close();
-        socket.close();
-    }
-
-    private void send(int i) throws IOException, InterruptedException {
-        connect(i);
-        lock.lock();
-        int transmission = App.resource / 4;
-        App.resource -= transmission;
-        App.log("send", (InetSocketAddress) socket.getRemoteSocketAddress(), transmission);
-        lock.unlock();
-        Thread.sleep(500);
-        outputStream.writeInt(transmission);
-        outputStream.flush();
-        close();
+        Thread thread = new Thread(new SenderThread(socket));
+        thread.start();
     }
 }
