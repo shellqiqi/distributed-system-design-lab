@@ -45,7 +45,7 @@ public class App {
 
         senderThread.join();
         receiverThread.join();
-        System.out.println("程序结束");
+        System.out.println("主程序结束");
     }
 
     public static void log(String operation, InetSocketAddress target, int transmission) {
