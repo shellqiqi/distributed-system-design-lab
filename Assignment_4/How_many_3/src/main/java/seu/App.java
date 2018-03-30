@@ -1,17 +1,18 @@
 package seu;
 
-import java.net.InetSocketAddress;
+import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Scanner;
 
 public class App {
 
     public static int resource = 300;
 
+    public static Logger logger;
+
     public static SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SSS");
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, IOException {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("请输入随机数种子：");
@@ -29,8 +30,10 @@ public class App {
         System.out.println("输入参数结束");
 
         System.out.println("初始化...");
-        Thread senderThread = new Thread(new TransmissionEventCreator(IP1, port1, IP2, port2, seed));
+        Thread transmissionEventCreatorThread = new Thread(new TransmissionEventCreator(IP1, port1, IP2, port2, seed));
+        Thread summationRequestCreatorThread = new Thread(new SummationRequestCreator(IP1, port1, IP2, port2));
         Thread receiverThread = new Thread(new Receiver(localPort));
+        logger = new Logger(localPort);
         System.out.println("初始化结束");
 
         System.out.println("启动receiver");
@@ -39,22 +42,15 @@ public class App {
 
         System.out.print("输入y启动sender：");
         if (scanner.next().equals("y")) {
-            System.out.printf("%-6s%-24s%-7s%-7s%-14s\n", "opr", "dest", "trans", "total", "date");
-            senderThread.start();
+            transmissionEventCreatorThread.start();
+            summationRequestCreatorThread.start();
         }
 
-        senderThread.join();
+        summationRequestCreatorThread.join();
+        transmissionEventCreatorThread.join();
         receiverThread.join();
+        logger.close();
         System.out.println("主程序结束");
-    }
-
-    public static void log(String operation, InetSocketAddress target, int transmission) {
-        System.out.printf("%-6s%-24s%-7d%-7d%-14s\n",
-                operation,
-                target.getAddress().getHostAddress() + ":" + target.getPort(),
-                transmission,
-                resource,
-                dateFormat.format(new Date()));
     }
 
     public static long getRandomInterval(int second) {

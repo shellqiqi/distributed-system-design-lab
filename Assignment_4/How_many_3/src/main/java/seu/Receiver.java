@@ -3,10 +3,13 @@ package seu;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 
 public class Receiver implements Runnable {
 
     private int port;
+    public static int transmissionReceiveCount = 0;
+    public static int resourceResponseCount = 0;
 
     public Receiver(int port) {
         this.port = port;
@@ -17,11 +20,25 @@ public class Receiver implements Runnable {
         ServerSocket serverSocket;
         try {
             serverSocket = new ServerSocket(port);
-            for (int i = 0; i < 50; i++) {
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        while (transmissionReceiveCount < 50 * 2 ||
+                resourceResponseCount < 10 * 2) {
+            try {
+                serverSocket.setSoTimeout(15000);
                 Socket socket = serverSocket.accept();
-                Thread thread = new Thread(new ReceiverThread(socket));
+                Thread thread = new Thread(new ReceiverProcessor(socket));
                 thread.start();
+            } catch (SocketTimeoutException e) {
+                // Retry
+            } catch (IOException e) {
+                e.printStackTrace();
+                break;
             }
+        }
+        try {
             serverSocket.close();
         } catch (IOException e) {
             e.printStackTrace();

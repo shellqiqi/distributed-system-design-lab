@@ -7,6 +7,11 @@ public class MessageUtil {
         return setParameter(setCode(message, code), parameter) ;
     }
 
+    public static short getMessage(int code) {
+        short message = 0;
+        return setParameter(setCode(message, code), 0) ;
+    }
+
     public static short setParameter(short message, int parameter) {
         message &= 0x0C00;
         message |= parameter;

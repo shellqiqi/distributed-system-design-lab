@@ -3,6 +3,7 @@ package seu;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -41,11 +42,11 @@ public class TransmissionEventCreator implements Runnable {
         try {
             int counter1 = 0;
             int counter2 = 0;
-            for (int i = 0; i < 50; i++) {
+            for (int i = 0; i < 100; i++) {
                 Thread.sleep(getRandomInterval(1));
-                if (counter1 >= 25) {
+                if (counter1 >= 50) {
                     transmit(2); counter2++;
-                } else if (counter2 >= 25) {
+                } else if (counter2 >= 50) {
                     transmit(1); counter1++;
                 } else {
                     if (random.nextBoolean()) {
@@ -75,13 +76,12 @@ public class TransmissionEventCreator implements Runnable {
                 socket = new Socket(IP2, port2);
                 break;
             default:
-                throw new IOException("Connection argument illegal.");
+                throw new IOException("Transmit argument illegal.");
         }
-        socket.setSoTimeout(10000);
         lock.lock();
         int transmission = random.nextInt(App.resource / 4) + 1;
         App.resource -= transmission;
-        App.log("send", (InetSocketAddress) socket.getRemoteSocketAddress(), transmission);
+        App.logger.log(0, (InetSocketAddress) socket.getRemoteSocketAddress(), 0b00, transmission, App.resource, new Date());
         lock.unlock();
         Thread thread = new Thread(new MessageSender(socket, getMessage(0b00, transmission), 1000));
         thread.start();
