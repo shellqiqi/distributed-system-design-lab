@@ -11,6 +11,10 @@ public class Receiver implements Runnable {
     public static int transmissionReceiveCount = 0;
     public static int resourceResponseCount = 0;
 
+    /**
+     * Server to get client sockets.
+     * @param port Server port.
+     */
     public Receiver(int port) {
         this.port = port;
     }

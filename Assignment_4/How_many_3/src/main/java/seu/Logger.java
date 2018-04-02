@@ -8,11 +8,26 @@ public class Logger {
 
     private BufferedOutputStream bufferedOutputStream;
 
+    /**
+     * Constructor of Logger.
+     * @param id node id.
+     * @throws FileNotFoundException FileNotFoundException.
+     */
     public Logger(int id) throws FileNotFoundException {
         FileOutputStream fileOutputStream = new FileOutputStream(new File("log" + id + ".txt"));
         bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
     }
 
+    /**
+     * Log one line to logfile.
+     * @param io input = 1 and output = 0.
+     * @param IP remote socket IP.
+     * @param port remote socket port.
+     * @param code message code.
+     * @param parameter message parameter.
+     * @param total total resource.
+     * @param time time.
+     */
     public void log(int io, String IP, int port, int code, int parameter, int total, Date time) {
         String s = String.format("%-2d %s %-3s%-5d%-5d%-14s\n",
                 io,
@@ -29,6 +44,15 @@ public class Logger {
         }
     }
 
+    /**
+     * Log one line to logfile.
+     * @param io input = 1 and output = 0.
+     * @param address remote socket address.
+     * @param code message code.
+     * @param parameter message parameter.
+     * @param total total resource.
+     * @param time time.
+     */
     public void log(int io, InetSocketAddress address, int code, int parameter, int total, Date time) {
         String s = String.format("%-2d %s %-3s%-5d%-5d%-14s\n",
                 io,
@@ -45,6 +69,10 @@ public class Logger {
         }
     }
 
+    /**
+     * Close file.
+     * @throws IOException IOException.
+     */
     public void close() throws IOException {
         bufferedOutputStream.close();
     }

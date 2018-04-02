@@ -1,5 +1,8 @@
 package seu;
 
+/**
+ * Tool-functions to resolve messages.
+ */
 public class MessageUtil {
 
     public static short getMessage(int code, int parameter) {

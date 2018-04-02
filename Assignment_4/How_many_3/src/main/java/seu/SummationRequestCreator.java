@@ -18,6 +18,13 @@ public class SummationRequestCreator implements Runnable {
     private String IP2;
     private int port2;
 
+    /**
+     * Make summation request regularly.
+     * @param IP1 first target IP.
+     * @param port1 first target port.
+     * @param IP2 second target IP.
+     * @param port2 second target port.
+     */
     public SummationRequestCreator(String IP1, int port1, String IP2, int port2) {
         this.IP1 = IP1;
         this.port1 = port1;
@@ -38,6 +45,10 @@ public class SummationRequestCreator implements Runnable {
 
     }
 
+    /**
+     * Do summation request.
+     * @throws IOException IOException.
+     */
     private void summation() throws IOException {
         Date start = new Date();
         Socket socket1;

@@ -20,6 +20,11 @@ public class ReceiverProcessor implements Runnable {
 
     private Lock lock = new ReentrantLock();
 
+    /**
+     * Resolve client requests.
+     * @param socket socket from client.
+     * @throws IOException IOException.
+     */
     public ReceiverProcessor(Socket socket) throws IOException {
         this.socket = socket;
         inputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
@@ -48,6 +53,10 @@ public class ReceiverProcessor implements Runnable {
         }
     }
 
+    /**
+     * Add resource.
+     * @param resource transmission.
+     */
     private void getResource(int resource) {
         lock.lock();
         App.resource += resource;
@@ -56,6 +65,10 @@ public class ReceiverProcessor implements Runnable {
         lock.unlock();
     }
 
+    /**
+     * Response summation request.
+     * @throws IOException IOException.
+     */
     private void responseSummationRequest() throws IOException {
         lock.lock();
         outputStream.writeShort(getMessage(0b10, App.resource));
