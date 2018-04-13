@@ -27,7 +27,7 @@ public class Receiver implements Runnable {
                 }
             }
             serverSocket.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
