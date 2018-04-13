@@ -19,22 +19,8 @@ public class ConfigUtil {
     public static String OPPOSITE_IP;
     // Node info
     public static char NODE;
-    public static int RESOURCE = 300;
+    public static int RESOURCE = 100;
     public static TreeMap<Integer, Snapshot> SNAPSHOT_TABLE = new TreeMap<>();
-
-    public static int getPort() throws Exception {
-        return getPort(NODE);
-    }
-
-    public static int getPort(char node) throws Exception {
-        switch (node) {
-            case 'i': return PORT_I;
-            case 'j': return PORT_J;
-            case 'k': return PORT_K;
-            case 'c': return PORT_C;
-            default: throw new Exception("Unsupported node name");
-        }
-    }
 
     public static String getIP() throws Exception {
         return getIP(NODE);
@@ -52,5 +38,23 @@ public class ConfigUtil {
                 else return OPPOSITE_IP;
             default: throw new Exception("Unsupported node name");
         }
+    }
+
+    public static int getPort() throws Exception {
+        return getPort(NODE);
+    }
+
+    public static int getPort(char node) throws Exception {
+        switch (node) {
+            case 'i': return PORT_I;
+            case 'j': return PORT_J;
+            case 'k': return PORT_K;
+            case 'c': return PORT_C;
+            default: throw new Exception("Unsupported node name");
+        }
+    }
+
+    public static long getRandomInterval(int second) {
+        return Math.round(second * -1000 * Math.log(Math.random()));
     }
 }
