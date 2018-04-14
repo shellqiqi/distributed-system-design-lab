@@ -42,6 +42,7 @@ public class ReceiverThread implements Runnable {
                         getResource(message.node, message.resource);
                         break;
                     case 4:
+                        getSnapshot(message.node, message.snapshotId);
                         break;
                     case 5:
                         break;
@@ -68,13 +69,7 @@ public class ReceiverThread implements Runnable {
         lock.lock();
         SNAPSHOT_TABLE.put(snapshotId, Snapshot.getInstanceOfStartSnapshot(snapshotId));
         lock.unlock();
-        Message message = Message.getInstanceOfSnapshot(snapshotId);
-        for (char targetNode :
-                getOtherNodes()) {
-            SenderThread senderThread = new SenderThread(targetNode, message.toString(), getDelay(targetNode));
-            Thread thread = new Thread(senderThread);
-            thread.start();
-        }
+        broadcastSnapshots(snapshotId);
     }
 
     private void getResource(char sourceNode, int resource) {
@@ -87,5 +82,28 @@ public class ReceiverThread implements Runnable {
             }
         }
         lock.unlock();
+    }
+
+    private void getSnapshot(char sourceNode, int snapshotId) throws Exception {
+        lock.lock();
+        boolean containsSnapshot = SNAPSHOT_TABLE.containsKey(snapshotId);
+        if (containsSnapshot) {
+            SNAPSHOT_TABLE.get(snapshotId).cancelListen(sourceNode);
+            SNAPSHOT_TABLE.get(snapshotId).receivedCount++;
+        } else {
+            SNAPSHOT_TABLE.put(snapshotId, Snapshot.getInstanceOfGetSnapshot(sourceNode, snapshotId));
+        }
+        lock.unlock();
+        if (!containsSnapshot) broadcastSnapshots(snapshotId);
+    }
+
+    private void broadcastSnapshots(int snapshotId) throws Exception {
+        Message message = Message.getInstanceOfSnapshot(snapshotId);
+        for (char targetNode :
+                getOtherNodes()) {
+            SenderThread senderThread = new SenderThread(targetNode, message.toString(), getDelay(targetNode));
+            Thread thread = new Thread(senderThread);
+            thread.start();
+        }
     }
 }

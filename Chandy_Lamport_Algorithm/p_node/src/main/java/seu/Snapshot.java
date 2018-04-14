@@ -136,6 +136,12 @@ public class Snapshot {
         return snapshot;
     }
 
+    public static Snapshot getInstanceOfGetSnapshot(char sourceNode, int snapshotId) {
+        Snapshot snapshot = getInstanceOfStartSnapshot(snapshotId);
+        snapshot.cancelListen(sourceNode);
+        return snapshot;
+    }
+
     @Override
     public String toString() {
         return id +
