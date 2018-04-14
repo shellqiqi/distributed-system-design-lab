@@ -7,7 +7,7 @@ import static seu.ConfigUtil.*;
 public class App {
     public static void main(String[] args) throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("请输入本机端口：");
+        System.out.print("请输入结点名：");
         NODE = scanner.next().charAt(0);
         System.out.print("请输入对端IP：");
         OPPOSITE_IP = scanner.next();
