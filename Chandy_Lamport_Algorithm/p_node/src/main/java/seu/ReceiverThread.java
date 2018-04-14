@@ -45,6 +45,7 @@ public class ReceiverThread implements Runnable {
                         getSnapshot(message.node, message.snapshotId);
                         break;
                     case 5:
+                        shutdown();
                         break;
                     default:
                         break;
@@ -95,6 +96,10 @@ public class ReceiverThread implements Runnable {
         }
         lock.unlock();
         if (!containsSnapshot) broadcastSnapshots(snapshotId);
+    }
+
+    private void shutdown() {
+        Receiver.enableServer = false;
     }
 
     private void broadcastSnapshots(int snapshotId) throws Exception {
