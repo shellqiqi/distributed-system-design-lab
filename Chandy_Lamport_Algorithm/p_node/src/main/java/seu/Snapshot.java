@@ -13,12 +13,12 @@ public class Snapshot {
     public int ki;
     public int jk;
     public int kj;
-    public boolean isListenij;
-    public boolean isListenji;
-    public boolean isListenik;
-    public boolean isListenki;
-    public boolean isListenjk;
-    public boolean isListenkj;
+    private boolean isListenij;
+    private boolean isListenji;
+    private boolean isListenik;
+    private boolean isListenki;
+    private boolean isListenjk;
+    private boolean isListenkj;
 
     public int receivedCount;
 
@@ -60,11 +60,38 @@ public class Snapshot {
         return receivedCount >= 2;
     }
 
+    public void addChannelResource(char from, int resource) {
+        addChannelResource(from, NODE, resource);
+    }
+
+    private void addChannelResource(char from, char to, int resource) {
+        if (from == 'i' && to == 'j') ij += resource;
+        else if (from == 'i' && to == 'k') ik += resource;
+        else if (from == 'j' && to == 'i') ji += resource;
+        else if (from == 'j' && to == 'k') jk += resource;
+        else if (from == 'k' && to == 'i') ki += resource;
+        else if (from == 'k' && to == 'j') kj += resource;
+    }
+
+    public boolean isListen(char from) {
+        return isListen(from, NODE);
+    }
+
+    private boolean isListen(char from, char to) {
+        if (from == 'i' && to == 'j') return isListenij;
+        else if (from == 'i' && to == 'k') return isListenik;
+        else if (from == 'j' && to == 'i') return isListenji;
+        else if (from == 'j' && to == 'k') return isListenjk;
+        else if (from == 'k' && to == 'i') return isListenki;
+        else if (from == 'k' && to == 'j') return isListenkj;
+        return false;
+    }
+
     public void setListen(char from) {
         setListen(from, NODE);
     }
 
-    public void setListen(char from, char to) {
+    private void setListen(char from, char to) {
         if (from == 'i' && to == 'j') isListenij = true;
         else if (from == 'i' && to == 'k') isListenik = true;
         else if (from == 'j' && to == 'i') isListenji = true;
@@ -77,7 +104,7 @@ public class Snapshot {
         cancelListen(from, NODE);
     }
 
-    public void cancelListen(char from, char to) {
+    private void cancelListen(char from, char to) {
         if (from == 'i' && to == 'j') isListenij = false;
         else if (from == 'i' && to == 'k') isListenik = false;
         else if (from == 'j' && to == 'i') isListenji = false;

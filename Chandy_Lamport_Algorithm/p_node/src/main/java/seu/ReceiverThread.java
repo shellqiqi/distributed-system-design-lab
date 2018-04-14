@@ -39,7 +39,7 @@ public class ReceiverThread implements Runnable {
                         startSnapshot(message.snapshotId);
                         break;
                     case 3:
-                        getResource(message.resource);
+                        getResource(message.node, message.resource);
                         break;
                     case 4:
                         break;
@@ -77,10 +77,15 @@ public class ReceiverThread implements Runnable {
         }
     }
 
-    private void getResource(int resource) {
+    private void getResource(char sourceNode, int resource) {
         lock.lock();
         RESOURCE += resource;
-        // TODO: deal with snapshot resource statistics
+        for (Integer snapshotId :
+                SNAPSHOT_TABLE.keySet()) {
+            if (SNAPSHOT_TABLE.get(snapshotId).isListen(sourceNode)) {
+                SNAPSHOT_TABLE.get(snapshotId).addChannelResource(sourceNode, resource);
+            }
+        }
         lock.unlock();
     }
 }
