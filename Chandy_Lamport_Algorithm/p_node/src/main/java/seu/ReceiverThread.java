@@ -26,7 +26,6 @@ public class ReceiverThread implements Runnable {
 
     @Override
     public void run() {
-        // TODO: business logic.
         try {
             Object o = inputStream.readObject();
             if (o != null) {
@@ -45,9 +44,8 @@ public class ReceiverThread implements Runnable {
                         getSnapshot(message.node, message.snapshotId);
                         break;
                     case 5:
-                        shutdown();
-                        break;
                     default:
+                        shutdown();
                         break;
                 }
             }
@@ -60,6 +58,9 @@ public class ReceiverThread implements Runnable {
     }
 
     private void sendResourceThroughChannel(char targetNode, int resource) {
+        lock.lock();
+        RESOURCE -= resource;
+        lock.unlock();
         Message message = Message.getInstanceOfResourceTransmit(resource);
         SenderThread senderThread = new SenderThread(targetNode, message.toString(), getDelay(targetNode));
         Thread thread = new Thread(senderThread);
@@ -96,6 +97,11 @@ public class ReceiverThread implements Runnable {
         }
         lock.unlock();
         if (!containsSnapshot) broadcastSnapshots(snapshotId);
+        if (containsSnapshot && SNAPSHOT_TABLE.get(snapshotId).isComplete()) {
+            SenderThread senderThread = new SenderThread('c', SNAPSHOT_TABLE.get(snapshotId).toString(), 0);
+            Thread thread = new Thread(senderThread);
+            thread.start();
+        }
     }
 
     private void shutdown() {
