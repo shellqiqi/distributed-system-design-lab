@@ -22,8 +22,17 @@ public class ConfigUtil {
     public static int RESOURCE = 100;
     public static TreeMap<Integer, Snapshot> SNAPSHOT_TABLE = new TreeMap<>();
 
-    public static String getIP() throws Exception {
-        return getIP(NODE);
+    public static char[] getOtherNodes() throws Exception {
+        switch (NODE) {
+            case 'i': return new char[] {'j', 'k'};
+            case 'j': return new char[] {'i', 'k'};
+            case 'k': return new char[] {'i', 'j'};
+            default: throw new Exception("Unsupported node name");
+        }
+    }
+
+    public static String getIP() {
+        return "127.0.0.1";
     }
 
     public static String getIP(char node) throws Exception {
@@ -52,6 +61,20 @@ public class ConfigUtil {
             case 'c': return PORT_C;
             default: throw new Exception("Unsupported node name");
         }
+    }
+
+    public static int getDelay(char to) {
+        return getDelay(NODE, to);
+    }
+
+    public static int getDelay(char from, char to) {
+        if (from == 'i' && to == 'j') return DELAY_IJ;
+        else if (from == 'i' && to == 'k') return DELAY_IK;
+        else if (from == 'j' && to == 'i') return DELAY_JI;
+        else if (from == 'j' && to == 'k') return DELAY_JK;
+        else if (from == 'k' && to == 'i') return DELAY_KI;
+        else if (from == 'k' && to == 'j') return DELAY_KJ;
+        else return 0;
     }
 
     public static long getRandomInterval(int second) {
