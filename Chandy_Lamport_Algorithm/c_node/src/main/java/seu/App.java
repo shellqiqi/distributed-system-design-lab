@@ -2,6 +2,7 @@ package seu;
 
 import seu.pojo.Snapshot;
 import seu.simulation.SimulateApp;
+import seu.socket.Sender;
 
 import java.util.Map;
 import java.util.Random;
@@ -27,6 +28,8 @@ public class App {
             System.out.print(snapshot.getKey() + ": " + snapshot.getValue().toString() + " total: ");
             System.out.println(snapshot.getValue().total());
         }
+
+        Sender sender = new Sender(simulateApp.controllerMessageSequence);
 
         System.out.println("主程序结束");
     }

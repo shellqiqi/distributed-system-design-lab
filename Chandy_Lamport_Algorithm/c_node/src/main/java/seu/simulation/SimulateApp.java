@@ -117,7 +117,7 @@ public class SimulateApp {
                 // 补全 控制消息序列 快照参数 开始点 快照编号
                 int toInt = RANDOM.nextInt(3);
                 char to = int2char(toInt);
-                controllerMessageSequence.elementAt(i).setFromTo('c', to);
+                controllerMessageSequence.elementAt(i).setFromTo(to, to);
                 controllerMessageSequence.elementAt(i).snapshotId = newSnapshotId;
                 // 衍生 快照消息 快照到达
                 for (char otherNode : getOtherNodes(to)) {
