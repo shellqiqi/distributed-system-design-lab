@@ -1,6 +1,6 @@
-package seu;
+package seu.pojo;
 
-import static seu.ConfigUtil.*;
+import static seu.utility.ConfigUtil.*;
 
 public class Snapshot {
     public int id;

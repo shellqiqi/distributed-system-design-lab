@@ -1,9 +1,9 @@
-package seu;
+package seu.socket;
 
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import static seu.ConfigUtil.*;
+import static seu.utility.ConfigUtil.*;
 
 public class SenderThread implements Runnable {
 
@@ -20,6 +20,7 @@ public class SenderThread implements Runnable {
     @Override
     public void run() {
         try {
+            System.out.println("Send " + content + " to " + targetNode);
             Thread.sleep(delay);
             Socket socket = new Socket(getIP(targetNode), getPort(targetNode));
             ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());

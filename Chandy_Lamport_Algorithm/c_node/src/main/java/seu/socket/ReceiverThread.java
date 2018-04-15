@@ -29,14 +29,14 @@ public class ReceiverThread implements Runnable {
             Object o = inputStream.readObject();
             if (o != null) {
                 Snapshot snapshot = new Snapshot((String) o);
-                System.out.println(snapshot.toString());
+                System.out.println("Receive " + snapshot.toString());
                 lock.lock();
                 if (!SNAPSHOT_TABLE.containsKey(snapshot.id)) {
                     SNAPSHOT_TABLE.put(snapshot.id, snapshot);
                 } else {
                     SNAPSHOT_TABLE.get(snapshot.id).merge(snapshot);
                     if (SNAPSHOT_TABLE.get(snapshot.id).isComplete())
-                        System.out.println("Complete: " + SNAPSHOT_TABLE.get(snapshot.id));
+                        System.out.println("Complete " + SNAPSHOT_TABLE.get(snapshot.id));
                 }
                 lock.unlock();
             }

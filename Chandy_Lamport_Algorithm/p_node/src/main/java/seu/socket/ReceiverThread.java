@@ -1,4 +1,7 @@
-package seu;
+package seu.socket;
+
+import seu.pojo.Message;
+import seu.pojo.Snapshot;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -7,7 +10,7 @@ import java.net.Socket;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static seu.ConfigUtil.*;
+import static seu.utility.ConfigUtil.*;
 
 public class ReceiverThread implements Runnable {
 
@@ -27,6 +30,7 @@ public class ReceiverThread implements Runnable {
             Object o = inputStream.readObject();
             if (o != null) {
                 Message message = new Message((String) o);
+                System.out.println("Receive " + message.toString());
                 switch (message.command) {
                     case 1:
                         sendResourceThroughChannel(message.node, message.resource);

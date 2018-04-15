@@ -1,8 +1,10 @@
 package seu;
 
+import seu.socket.Receiver;
+
 import java.util.Scanner;
 
-import static seu.ConfigUtil.*;
+import static seu.utility.ConfigUtil.*;
 
 public class App {
     public static void main(String[] args) throws InterruptedException {

@@ -1,4 +1,6 @@
-package seu;
+package seu.utility;
+
+import seu.pojo.Snapshot;
 
 import java.util.TreeMap;
 

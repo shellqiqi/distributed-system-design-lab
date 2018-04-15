@@ -12,7 +12,7 @@ public class Sender implements Runnable {
         for (int i = 0; i < simulateControlMessages.size(); i++) {
             if (i >= simulateControlMessages.size() - 1) {
                 SimulateMessage message = simulateControlMessages.elementAt(i);
-                message.time = -1;
+                message.time = 0;
                 senderControlMessages.add(simulateControlMessages.elementAt(i));
             } else {
                 SimulateMessage message = simulateControlMessages.elementAt(i);
@@ -29,6 +29,7 @@ public class Sender implements Runnable {
                 SenderThread senderThread = new SenderThread(message.from, message.toString());
                 Thread thread = new Thread(senderThread);
                 thread.start();
+                System.out.println("Send " + message.toString() + " to " + message.from);
                 Thread.sleep(message.time);
             }
         } catch (InterruptedException e) {
