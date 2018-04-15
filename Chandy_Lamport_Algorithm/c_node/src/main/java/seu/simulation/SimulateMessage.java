@@ -1,5 +1,8 @@
 package seu.simulation;
 
+/**
+ * Simulate message.
+ */
 public class SimulateMessage implements Comparable<SimulateMessage> {
     public int command;
     public char from;
@@ -8,6 +11,13 @@ public class SimulateMessage implements Comparable<SimulateMessage> {
     public int snapshotId;
     public int time;
 
+    /**
+     * Construct initial message.
+     *
+     * @param command message command.
+     * @param time    absolute time in simulation and
+     *                interval time in sending.
+     */
     public SimulateMessage(int command, int time) {
         this.command = command;
         from = 0;
@@ -17,6 +27,12 @@ public class SimulateMessage implements Comparable<SimulateMessage> {
         this.time = time;
     }
 
+    /**
+     * Set message sending from who to who.
+     *
+     * @param from node sending from.
+     * @param to   node sending to.
+     */
     public void setFromTo(char from, char to) {
         this.from = from;
         this.to = to;

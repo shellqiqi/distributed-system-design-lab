@@ -9,8 +9,11 @@ import java.net.Socket;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static seu.utility.ConfigUtil.*;
+import static seu.utility.ConfigUtil.SNAPSHOT_TABLE;
 
+/**
+ * Receive snapshots and merge them all.
+ */
 public class ReceiverThread implements Runnable {
 
     private Socket socket;

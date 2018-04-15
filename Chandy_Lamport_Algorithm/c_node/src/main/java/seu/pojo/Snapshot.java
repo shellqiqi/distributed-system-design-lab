@@ -1,27 +1,41 @@
 package seu.pojo;
 
+/**
+ * Snapshot.
+ */
 public class Snapshot {
+    // Snapshot id
     public int id;
+    // Merge count
+    public int mergeCount = 0;
+    // Node resource
     private int I;
     private int J;
     private int K;
+    // Channel resource
     private int IJ;
     private int JI;
     private int IK;
     private int KI;
     private int JK;
     private int KJ;
+    // Whether node received snapshot
     private boolean isCheckedI;
     private boolean isCheckedJ;
     private boolean isCheckedK;
+    // Whether channel is listened
     private boolean isListenIJ;
     private boolean isListenJI;
     private boolean isListenIK;
     private boolean isListenKI;
     private boolean isListenJK;
     private boolean isListenKJ;
-    public int mergeCount = 0;
 
+    /**
+     * Construct a snapshot.
+     *
+     * @param id ID.
+     */
     public Snapshot(int id) {
         this.id = id;
         I = 0;
@@ -44,6 +58,11 @@ public class Snapshot {
         isListenKJ = false;
     }
 
+    /**
+     * Construct from the string.
+     *
+     * @param snapshot the string.
+     */
     public Snapshot(String snapshot) {
         String[] splits = snapshot.split("\\|");
         id = Integer.parseInt(splits[0]);
@@ -58,6 +77,11 @@ public class Snapshot {
         KJ = Integer.parseInt(splits[9]);
     }
 
+    /**
+     * Merge with the given snapshot.
+     *
+     * @param snapshot the snapshot.
+     */
     public void merge(Snapshot snapshot) {
         I += snapshot.I;
         J += snapshot.J;
@@ -71,37 +95,85 @@ public class Snapshot {
         mergeCount++;
     }
 
+    /**
+     * Whether snapshot is complete.
+     *
+     * @return complete status.
+     */
     public boolean isComplete() {
         return mergeCount >= 3;
     }
 
+    /**
+     * Set node that have received a snapshot.
+     *
+     * @param node   the node.
+     * @param status received status.
+     */
     public void setChecked(char node, boolean status) {
         switch (node) {
-            case 'i': isCheckedI = status; break;
-            case 'j': isCheckedJ = status; break;
-            case 'k': isCheckedK = status; break;
-            default: break;
+            case 'i':
+                isCheckedI = status;
+                break;
+            case 'j':
+                isCheckedJ = status;
+                break;
+            case 'k':
+                isCheckedK = status;
+                break;
+            default:
+                break;
         }
     }
 
+    /**
+     * Get node status whether have received a snapshot.
+     *
+     * @param node the node.
+     * @return received status.
+     */
     public boolean getChecked(char node) {
         switch (node) {
-            case 'i': return isCheckedI;
-            case 'j': return isCheckedJ;
-            case 'k': return isCheckedK;
-            default: return false;
+            case 'i':
+                return isCheckedI;
+            case 'j':
+                return isCheckedJ;
+            case 'k':
+                return isCheckedK;
+            default:
+                return false;
         }
     }
 
+    /**
+     * Set node resource.
+     *
+     * @param node     the node.
+     * @param resource resource the node has.
+     */
     public void setNodeResource(char node, int resource) {
         switch (node) {
-            case 'i': I = resource; break;
-            case 'j': J = resource; break;
-            case 'k': K = resource; break;
-            default: break;
+            case 'i':
+                I = resource;
+                break;
+            case 'j':
+                J = resource;
+                break;
+            case 'k':
+                K = resource;
+                break;
+            default:
+                break;
         }
     }
 
+    /**
+     * Add channel resource.
+     *
+     * @param from     node channel from.
+     * @param to       node channel to.
+     * @param resource resource in the channel.
+     */
     public void addChannelResource(char from, char to, int resource) {
         if (from == 'i' && to == 'j') IJ += resource;
         else if (from == 'i' && to == 'k') IK += resource;
@@ -111,6 +183,13 @@ public class Snapshot {
         else if (from == 'k' && to == 'j') KJ += resource;
     }
 
+    /**
+     * Get channel listen status.
+     *
+     * @param from node channel from.
+     * @param to   node channel to.
+     * @return listen status of the channel.
+     */
     public boolean isListen(char from, char to) {
         if (from == 'i' && to == 'j') return isListenIJ;
         else if (from == 'i' && to == 'k') return isListenIK;
@@ -121,6 +200,12 @@ public class Snapshot {
         return false;
     }
 
+    /**
+     * Set channel listen status to listening.
+     *
+     * @param from node channel from.
+     * @param to   node channel to.
+     */
     public void setListen(char from, char to) {
         if (from == 'i' && to == 'j') isListenIJ = true;
         else if (from == 'i' && to == 'k') isListenIK = true;
@@ -130,6 +215,12 @@ public class Snapshot {
         else if (from == 'k' && to == 'j') isListenKJ = true;
     }
 
+    /**
+     * Cancel listen status of the channel.
+     *
+     * @param from node channel from.
+     * @param to   node channel to.
+     */
     public void cancelListen(char from, char to) {
         if (from == 'i' && to == 'j') isListenIJ = false;
         else if (from == 'i' && to == 'k') isListenIK = false;
@@ -139,6 +230,11 @@ public class Snapshot {
         else if (from == 'k' && to == 'j') isListenKJ = false;
     }
 
+    /**
+     * Get total resource of a snapshot.
+     *
+     * @return total resource.
+     */
     public int total() {
         return I + J + K
                 + IJ + JI

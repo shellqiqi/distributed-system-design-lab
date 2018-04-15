@@ -4,10 +4,20 @@ import seu.simulation.SimulateMessage;
 
 import java.util.Vector;
 
+/**
+ * Send control messages to control the whole nodes behavior.
+ * Call SenderThread to send messages.
+ */
 public class Sender implements Runnable {
 
     private Vector<SimulateMessage> senderControlMessages = new Vector<>();
 
+    /**
+     * Construct sender with sequence of control messages from SimulateApp
+     * then change the absolute time to the interval time.
+     *
+     * @param simulateControlMessages control messages from SimulateApp.
+     */
     public Sender(Vector<SimulateMessage> simulateControlMessages) {
         for (int i = 0; i < simulateControlMessages.size(); i++) {
             if (i >= simulateControlMessages.size() - 1) {
@@ -41,8 +51,13 @@ public class Sender implements Runnable {
         }
     }
 
+    /**
+     * Stop all nodes.
+     *
+     * @param message stop message with command 5.
+     */
     private void stop(SimulateMessage message) {
-        for (char otherNode : new char[] {'i', 'j', 'k'}) {
+        for (char otherNode : new char[]{'i', 'j', 'k'}) {
             SenderThread senderThread = new SenderThread(otherNode, message.toString());
             Thread thread = new Thread(senderThread);
             thread.start();

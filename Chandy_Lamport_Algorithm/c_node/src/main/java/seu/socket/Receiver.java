@@ -4,8 +4,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
-import static seu.utility.ConfigUtil.*;
+import static seu.utility.ConfigUtil.getPort;
 
+/**
+ * Receiver handles all sockets and transfer to every
+ * instance of ReceiverThread.
+ */
 public class Receiver implements Runnable {
 
     public static boolean enableServer = true;

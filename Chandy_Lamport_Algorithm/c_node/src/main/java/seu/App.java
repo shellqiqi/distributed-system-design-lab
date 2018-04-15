@@ -41,7 +41,7 @@ public class App {
         Thread receiverThread = new Thread(receiver);
         receiverThread.start();
 
-        Sender sender = new Sender(simulateApp.controllerMessageSequence);
+        Sender sender = new Sender(simulateApp.controlMessageSequence);
         Thread senderThread = new Thread(sender);
         senderThread.start();
 

@@ -8,12 +8,20 @@ import java.util.Vector;
 
 import static seu.utility.ConfigUtil.*;
 
+/**
+ * Simulate and generate control message sequence with snapshot results.
+ */
 public class SimulateApp {
 
-    public Vector<SimulateMessage> controllerMessageSequence = new Vector<>();
-    private Vector<SimulateMessage> arrivedMessageSequence = new Vector<>();
+    public Vector<SimulateMessage> controlMessageSequence = new Vector<>();
     public TreeMap<Integer, Snapshot> snapshots = new TreeMap<>();
+    private Vector<SimulateMessage> arrivedMessageSequence = new Vector<>();
 
+    /**
+     * Get an simulation.
+     *
+     * @throws Exception throw when exist unsupported node name.
+     */
     public SimulateApp() throws Exception {
         // 生成 控制消息序列 快照 下标
         Vector<Integer> command2 = new Vector<>();
@@ -27,13 +35,13 @@ public class SimulateApp {
         for (int i = 0; i < TRANSMIT_TIMES + SNAPSHOT_TIMES + 1; i++) {
             // 最后 结束消息
             if (i == TRANSMIT_TIMES + SNAPSHOT_TIMES)
-                controllerMessageSequence.add(new SimulateMessage(5, absoluteTime));
+                controlMessageSequence.add(new SimulateMessage(5, absoluteTime));
                 // 根据 快照 下标 生成 快照消息
             else if (command2.contains(i))
-                controllerMessageSequence.add(new SimulateMessage(2, absoluteTime));
+                controlMessageSequence.add(new SimulateMessage(2, absoluteTime));
                 // 命令码1 资源转移消息
             else
-                controllerMessageSequence.add(new SimulateMessage(1, absoluteTime));
+                controlMessageSequence.add(new SimulateMessage(1, absoluteTime));
             absoluteTime += getRandomInterval(5);
         }
         // TODO: 加入snapshot
@@ -41,11 +49,11 @@ public class SimulateApp {
         // 通过 控制消息序列 生成 全体消息序列
         int[] resources = new int[]{100, 100, 100};
         int newSnapshotId = 100;
-        for (int i = 0; i < controllerMessageSequence.size() || arrivedMessageSequence.size() > 0; ) {
+        for (int i = 0; i < controlMessageSequence.size() || arrivedMessageSequence.size() > 0; ) {
             // 处理在先发生的消息
             if (arrivedMessageSequence.size() > 0 &&
-                    (i >= controllerMessageSequence.size() ||
-                            controllerMessageSequence.elementAt(i).time >= arrivedMessageSequence.firstElement().time)) {
+                    (i >= controlMessageSequence.size() ||
+                            controlMessageSequence.elementAt(i).time >= arrivedMessageSequence.firstElement().time)) {
                 SimulateMessage firstArrivedMessage = arrivedMessageSequence.firstElement();
                 if (firstArrivedMessage.command == 3) { // 命令码 3 资源转移
                     // 修改资源
@@ -88,7 +96,7 @@ public class SimulateApp {
                     }
                 }
                 arrivedMessageSequence.removeElementAt(0);
-            } else if (controllerMessageSequence.elementAt(i).command == 1) { // 命令码 1 发起资源转移
+            } else if (controlMessageSequence.elementAt(i).command == 1) { // 命令码 1 发起资源转移
                 // 生成 资源转移参数
                 int fromInt = RANDOM.nextInt(3);
                 char from = int2char(fromInt);
@@ -101,29 +109,29 @@ public class SimulateApp {
                 // 修改 资源
                 resources[fromInt] -= resource;
                 // 补全 控制消息序列 资源转移 发出点 到达点 资源
-                controllerMessageSequence.elementAt(i).setFromTo(from, to);
-                controllerMessageSequence.elementAt(i).resource = resource;
+                controlMessageSequence.elementAt(i).setFromTo(from, to);
+                controlMessageSequence.elementAt(i).resource = resource;
                 // 衍生 到达消息 资源转移
                 SimulateMessage arrivedMessage = new SimulateMessage(
                         3,
-                        controllerMessageSequence.elementAt(i).time + getDelay(from, to));
+                        controlMessageSequence.elementAt(i).time + getDelay(from, to));
                 arrivedMessage.from = from;
                 arrivedMessage.to = to;
                 arrivedMessage.resource = resource;
                 addArrivedMessageSequence(arrivedMessage);
                 // 收尾
                 i++;
-            } else if (controllerMessageSequence.elementAt(i).command == 2) { // 命令码 2 发起快照消息
+            } else if (controlMessageSequence.elementAt(i).command == 2) { // 命令码 2 发起快照消息
                 // 补全 控制消息序列 快照参数 开始点 快照编号
                 int toInt = RANDOM.nextInt(3);
                 char to = int2char(toInt);
-                controllerMessageSequence.elementAt(i).setFromTo(to, to);
-                controllerMessageSequence.elementAt(i).snapshotId = newSnapshotId;
+                controlMessageSequence.elementAt(i).setFromTo(to, to);
+                controlMessageSequence.elementAt(i).snapshotId = newSnapshotId;
                 // 衍生 快照消息 快照到达
                 for (char otherNode : getOtherNodes(to)) {
                     SimulateMessage arrivedMessage = new SimulateMessage(
                             4,
-                            controllerMessageSequence.elementAt(i).time + getDelay(to, otherNode));
+                            controlMessageSequence.elementAt(i).time + getDelay(to, otherNode));
                     arrivedMessage.snapshotId = newSnapshotId;
                     arrivedMessage.setFromTo(to, otherNode);
                     addArrivedMessageSequence(arrivedMessage);
@@ -139,17 +147,28 @@ public class SimulateApp {
                 // 收尾
                 newSnapshotId++;
                 i++;
-            } else if (controllerMessageSequence.elementAt(i).command == 5) { // 命令码 5 结束程序
+            } else if (controlMessageSequence.elementAt(i).command == 5) { // 命令码 5 结束程序
                 i++;
             }
         }
     }
 
+    /**
+     * Add arrived message to sequence and reorder it.
+     *
+     * @param message message to add.
+     */
     private void addArrivedMessageSequence(SimulateMessage message) {
         arrivedMessageSequence.add(message);
         Collections.sort(arrivedMessageSequence);
     }
 
+    /**
+     * Convert node name to resources array index.
+     *
+     * @param c node name.
+     * @return index.
+     */
     private int char2int(char c) {
         switch (c) {
             case 'i':
@@ -163,6 +182,12 @@ public class SimulateApp {
         }
     }
 
+    /**
+     * Convert resources array index to node name.
+     *
+     * @param i index.
+     * @return node name.
+     */
     private char int2char(int i) {
         switch (i) {
             case 0:

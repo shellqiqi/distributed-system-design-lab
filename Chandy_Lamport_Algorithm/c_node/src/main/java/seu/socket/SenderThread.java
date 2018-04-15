@@ -3,13 +3,24 @@ package seu.socket;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import static seu.utility.ConfigUtil.*;
+import static seu.utility.ConfigUtil.getIP;
+import static seu.utility.ConfigUtil.getPort;
 
+/**
+ * Sending message string to target.
+ */
 public class SenderThread implements Runnable {
 
     private char targetNode;
     private String content;
 
+    /**
+     * Construct sender thread that send message to
+     * the given target node with message content.
+     *
+     * @param targetNode the target node.
+     * @param content    the content.
+     */
     public SenderThread(char targetNode, String content) {
         this.targetNode = targetNode;
         this.content = content;
