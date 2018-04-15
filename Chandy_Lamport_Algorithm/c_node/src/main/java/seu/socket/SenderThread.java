@@ -3,8 +3,7 @@ package seu.socket;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import static seu.utility.ConfigUtil.getIP;
-import static seu.utility.ConfigUtil.getPort;
+import static seu.utility.ConfigUtil.*;
 
 public class SenderThread implements Runnable {
 

@@ -8,7 +8,7 @@ public class SimulateMessage implements Comparable<SimulateMessage> {
     public int snapshotId;
     public int time;
 
-    SimulateMessage(int command, int time) {
+    public SimulateMessage(int command, int time) {
         this.command = command;
         from = 0;
         to = 0;
@@ -17,7 +17,7 @@ public class SimulateMessage implements Comparable<SimulateMessage> {
         this.time = time;
     }
 
-    void setFromTo(char from, char to) {
+    public void setFromTo(char from, char to) {
         this.from = from;
         this.to = to;
     }
