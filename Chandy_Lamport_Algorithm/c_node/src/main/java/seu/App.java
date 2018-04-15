@@ -2,6 +2,7 @@ package seu;
 
 import seu.pojo.Snapshot;
 import seu.simulation.SimulateApp;
+import seu.socket.Receiver;
 import seu.socket.Sender;
 
 import java.util.Map;
@@ -29,7 +30,16 @@ public class App {
             System.out.println(snapshot.getValue().total());
         }
 
+        Receiver receiver = new Receiver();
+        Thread receiverThread = new Thread(receiver);
+        receiverThread.start();
+
         Sender sender = new Sender(simulateApp.controllerMessageSequence);
+        Thread senderThread = new Thread(sender);
+        senderThread.start();
+
+        receiverThread.join();
+        senderThread.join();
 
         System.out.println("主程序结束");
     }

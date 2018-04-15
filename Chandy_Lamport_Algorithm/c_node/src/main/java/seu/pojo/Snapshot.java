@@ -20,6 +20,7 @@ public class Snapshot {
     private boolean isListenKI;
     private boolean isListenJK;
     private boolean isListenKJ;
+    private int mergeCount = 0;
 
     public Snapshot(int id) {
         this.id = id;
@@ -55,6 +56,23 @@ public class Snapshot {
         KI = Integer.parseInt(splits[7]);
         JK = Integer.parseInt(splits[8]);
         KJ = Integer.parseInt(splits[9]);
+    }
+
+    public void merge(Snapshot snapshot) {
+        I += snapshot.I;
+        J += snapshot.J;
+        K += snapshot.K;
+        IJ += snapshot.IJ;
+        JI += snapshot.JI;
+        IK += snapshot.IK;
+        KI += snapshot.KI;
+        JK += snapshot.JK;
+        KJ += snapshot.KJ;
+        mergeCount++;
+    }
+
+    public boolean isComplete() {
+        return mergeCount >= 3;
     }
 
     public void setChecked(char node, boolean status) {

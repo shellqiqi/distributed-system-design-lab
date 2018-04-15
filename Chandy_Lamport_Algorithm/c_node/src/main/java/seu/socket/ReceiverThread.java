@@ -9,6 +9,8 @@ import java.net.Socket;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import static seu.utility.ConfigUtil.*;
+
 public class ReceiverThread implements Runnable {
 
     private Socket socket;
@@ -27,7 +29,16 @@ public class ReceiverThread implements Runnable {
             Object o = inputStream.readObject();
             if (o != null) {
                 Snapshot snapshot = new Snapshot((String) o);
-                // TODO: statistics for snapshot
+                System.out.println(snapshot.toString());
+                lock.lock();
+                if (!SNAPSHOT_TABLE.containsKey(snapshot.id)) {
+                    SNAPSHOT_TABLE.put(snapshot.id, snapshot);
+                } else {
+                    SNAPSHOT_TABLE.get(snapshot.id).merge(snapshot);
+                    if (SNAPSHOT_TABLE.get(snapshot.id).isComplete())
+                        System.out.println("Complete: " + SNAPSHOT_TABLE.get(snapshot.id));
+                }
+                lock.unlock();
             }
             inputStream.close();
             socket.close();
