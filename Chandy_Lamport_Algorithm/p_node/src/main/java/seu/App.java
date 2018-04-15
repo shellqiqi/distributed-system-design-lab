@@ -9,7 +9,7 @@ import static seu.utility.ConfigUtil.*;
 public class App {
     public static void main(String[] args) throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("请输入结点名：");
+        System.out.print("请输入节点名：");
         NODE = scanner.next().charAt(0);
         System.out.print("请输入对端IP：");
         OPPOSITE_IP = scanner.next();
