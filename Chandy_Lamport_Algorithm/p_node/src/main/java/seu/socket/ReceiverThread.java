@@ -129,9 +129,10 @@ public class ReceiverThread implements Runnable {
         if (containsSnapshot) {
             SNAPSHOT_TABLE.get(snapshotId).cancelListen(sourceNode);
         } else {
-            SNAPSHOT_TABLE.put(snapshotId, Snapshot.getInstanceOfGetSnapshot(sourceNode, snapshotId));
+            Snapshot snapshot = Snapshot.getInstanceOfGetSnapshot(sourceNode, snapshotId);
+            snapshot.receivedCount++;
+            SNAPSHOT_TABLE.put(snapshotId, snapshot);
         }
-        SNAPSHOT_TABLE.get(snapshotId).receivedCount++;
         lock.unlock();
         if (!containsSnapshot) broadcastSnapshots(snapshotId);
         if (containsSnapshot && SNAPSHOT_TABLE.get(snapshotId).isComplete()) {

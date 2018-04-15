@@ -52,8 +52,7 @@ public class SimulateApp {
         for (int i = 0; i < controlMessageSequence.size() || arrivedMessageSequence.size() > 0; ) {
             // 处理在先发生的消息
             if (arrivedMessageSequence.size() > 0 &&
-                    (i >= controlMessageSequence.size() ||
-                            controlMessageSequence.elementAt(i).time >= arrivedMessageSequence.firstElement().time)) {
+                    controlMessageSequence.elementAt(i).time >= arrivedMessageSequence.firstElement().time) {
                 SimulateMessage firstArrivedMessage = arrivedMessageSequence.firstElement();
                 if (firstArrivedMessage.command == 3) { // 命令码 3 资源转移
                     // 修改资源
@@ -148,7 +147,11 @@ public class SimulateApp {
                 newSnapshotId++;
                 i++;
             } else if (controlMessageSequence.elementAt(i).command == 5) { // 命令码 5 结束程序
-                i++;
+                // 推迟到最后
+                if (arrivedMessageSequence.size() > 0)
+                    controlMessageSequence.elementAt(i).time = arrivedMessageSequence.lastElement().time + 1000;
+                else
+                    i++;
             }
         }
     }

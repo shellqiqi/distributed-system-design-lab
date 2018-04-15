@@ -43,8 +43,8 @@ public class ReceiverThread implements Runnable {
                 System.out.println(dateFormat.format(new Date()) + " Receive " + snapshot.toString());
                 lock.lock();
                 if (!SNAPSHOT_TABLE.containsKey(snapshot.id)) {
+                    snapshot.mergeCount++;
                     SNAPSHOT_TABLE.put(snapshot.id, snapshot);
-                    SNAPSHOT_TABLE.get(snapshot.id).mergeCount++;
                 } else {
                     SNAPSHOT_TABLE.get(snapshot.id).merge(snapshot);
                     if (SNAPSHOT_TABLE.get(snapshot.id).isComplete())
