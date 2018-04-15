@@ -2,6 +2,7 @@ package seu.utility;
 
 import seu.pojo.Snapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.TreeMap;
 
 /**
@@ -22,10 +23,11 @@ public class ConfigUtil {
     private final static int PORT_C = 666;
     // IP of opposite nodes
     public static String OPPOSITE_IP;
-    // Node information
+    // Node properties
     public static char NODE;
     public static int RESOURCE = 100;
     public static TreeMap<Integer, Snapshot> SNAPSHOT_TABLE = new TreeMap<>();
+    public static SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SSS");
 
     /**
      * Get other nodes besides the local node.

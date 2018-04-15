@@ -2,7 +2,10 @@ package seu.socket;
 
 import seu.simulation.SimulateMessage;
 
+import java.util.Date;
 import java.util.Vector;
+
+import static seu.utility.ConfigUtil.dateFormat;
 
 /**
  * Send control messages to control the whole nodes behavior.
@@ -42,7 +45,7 @@ public class Sender implements Runnable {
                     SenderThread senderThread = new SenderThread(message.from, message.toString());
                     Thread thread = new Thread(senderThread);
                     thread.start();
-                    System.out.println("Send " + message.toString() + " to " + message.from);
+                    System.out.println(dateFormat.format(new Date()) + " Send " + message.toString() + " to " + message.from);
                     Thread.sleep(message.time);
                 }
             }
@@ -61,7 +64,7 @@ public class Sender implements Runnable {
             SenderThread senderThread = new SenderThread(otherNode, message.toString());
             Thread thread = new Thread(senderThread);
             thread.start();
-            System.out.println("Send " + message.toString() + " to " + otherNode);
+            System.out.println(dateFormat.format(new Date()) + " Send " + message.toString() + " to " + otherNode);
             Receiver.enableServer = false;
         }
     }

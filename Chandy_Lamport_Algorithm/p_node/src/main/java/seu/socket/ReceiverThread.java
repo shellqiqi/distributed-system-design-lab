@@ -7,6 +7,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.util.Date;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -40,7 +41,7 @@ public class ReceiverThread implements Runnable {
             Object o = inputStream.readObject();
             if (o != null) {
                 Message message = new Message((String) o);
-                System.out.println("Receive " + message.toString());
+                System.out.println(dateFormat.format(new Date()) + " Receive " + message.toString());
                 switch (message.command) {
                     case 1:
                         sendResourceThroughChannel(message.node, message.resource);

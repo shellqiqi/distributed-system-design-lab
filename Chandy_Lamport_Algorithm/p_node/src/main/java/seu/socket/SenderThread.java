@@ -2,9 +2,9 @@ package seu.socket;
 
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Date;
 
-import static seu.utility.ConfigUtil.getIP;
-import static seu.utility.ConfigUtil.getPort;
+import static seu.utility.ConfigUtil.*;
 
 /**
  * Sending message string to target.
@@ -33,6 +33,7 @@ public class SenderThread implements Runnable {
     @Override
     public void run() {
         try {
+            System.out.println(dateFormat.format(new Date()) + " Send " + content + " to " + targetNode);
             Socket socket = new Socket(getIP(targetNode), getPort(targetNode));
             Thread.sleep(delay);
             ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -40,7 +41,6 @@ public class SenderThread implements Runnable {
             outputStream.flush();
             outputStream.close();
             socket.close();
-            System.out.println("Send " + content + " to " + targetNode);
         } catch (Exception e) {
             e.printStackTrace();
         }

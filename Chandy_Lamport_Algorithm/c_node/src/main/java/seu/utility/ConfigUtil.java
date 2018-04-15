@@ -2,6 +2,7 @@ package seu.utility;
 
 import seu.pojo.Snapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.Random;
 import java.util.TreeMap;
 
@@ -30,6 +31,7 @@ public class ConfigUtil {
     public static int SNAPSHOT_TIMES;
     public static Random RANDOM;
     public static TreeMap<Integer, Snapshot> SNAPSHOT_TABLE = new TreeMap<>();
+    public static SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SSS");
 
     /**
      * Get the node besides the given nodes.

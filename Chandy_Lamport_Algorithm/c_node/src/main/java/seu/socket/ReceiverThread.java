@@ -6,10 +6,12 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.util.Date;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import static seu.utility.ConfigUtil.SNAPSHOT_TABLE;
+import static seu.utility.ConfigUtil.dateFormat;
 
 /**
  * Receive snapshots and merge them all.
@@ -38,7 +40,7 @@ public class ReceiverThread implements Runnable {
             Object o = inputStream.readObject();
             if (o != null) {
                 Snapshot snapshot = new Snapshot((String) o);
-                System.out.println("Receive " + snapshot.toString());
+                System.out.println(dateFormat.format(new Date()) + " Receive " + snapshot.toString());
                 lock.lock();
                 if (!SNAPSHOT_TABLE.containsKey(snapshot.id)) {
                     SNAPSHOT_TABLE.put(snapshot.id, snapshot);
