@@ -78,8 +78,4 @@ public class ConfigUtil {
         else if (from == 'k' && to == 'j') return DELAY_KJ;
         else return 0;
     }
-
-    public static long getRandomInterval(int second) {
-        return Math.round(second * -1000 * Math.log(Math.random()));
-    }
 }

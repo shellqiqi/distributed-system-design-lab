@@ -4,56 +4,56 @@ import static seu.utility.ConfigUtil.*;
 
 public class Snapshot {
     public int id;
-    public int i;
-    public int j;
-    public int k;
-    public int ij;
-    public int ji;
-    public int ik;
-    public int ki;
-    public int jk;
-    public int kj;
-    private boolean isListenij;
-    private boolean isListenji;
-    private boolean isListenik;
-    private boolean isListenki;
-    private boolean isListenjk;
-    private boolean isListenkj;
+    private int I;
+    private int J;
+    private int K;
+    private int IJ;
+    private int JI;
+    private int IK;
+    private int KI;
+    private int JK;
+    private int KJ;
+    private boolean isListenIJ;
+    private boolean isListenJI;
+    private boolean isListenIK;
+    private boolean isListenKI;
+    private boolean isListenJK;
+    private boolean isListenKJ;
 
     public int receivedCount;
 
     public Snapshot(int id) {
         this.id = id;
-        i = 0;
-        j = 0;
-        k = 0;
-        ij = 0;
-        ji = 0;
-        ik = 0;
-        ki = 0;
-        jk = 0;
-        kj = 0;
+        I = 0;
+        J = 0;
+        K = 0;
+        IJ = 0;
+        JI = 0;
+        IK = 0;
+        KI = 0;
+        JK = 0;
+        KJ = 0;
         receivedCount = 0;
-        isListenij = false;
-        isListenji = false;
-        isListenik = false;
-        isListenki = false;
-        isListenjk = false;
-        isListenkj = false;
+        isListenIJ = false;
+        isListenJI = false;
+        isListenIK = false;
+        isListenKI = false;
+        isListenJK = false;
+        isListenKJ = false;
     }
 
     public Snapshot(String snapshot) {
         String[] splits = snapshot.split("\\|");
         id = Integer.parseInt(splits[0]);
-        i = Integer.parseInt(splits[1]);
-        j = Integer.parseInt(splits[2]);
-        k = Integer.parseInt(splits[3]);
-        ij = Integer.parseInt(splits[4]);
-        ji = Integer.parseInt(splits[5]);
-        ik = Integer.parseInt(splits[6]);
-        ki = Integer.parseInt(splits[7]);
-        jk = Integer.parseInt(splits[8]);
-        kj = Integer.parseInt(splits[9]);
+        I = Integer.parseInt(splits[1]);
+        J = Integer.parseInt(splits[2]);
+        K = Integer.parseInt(splits[3]);
+        IJ = Integer.parseInt(splits[4]);
+        JI = Integer.parseInt(splits[5]);
+        IK = Integer.parseInt(splits[6]);
+        KI = Integer.parseInt(splits[7]);
+        JK = Integer.parseInt(splits[8]);
+        KJ = Integer.parseInt(splits[9]);
     }
 
     public boolean isComplete() {
@@ -65,12 +65,12 @@ public class Snapshot {
     }
 
     private void addChannelResource(char from, char to, int resource) {
-        if (from == 'i' && to == 'j') ij += resource;
-        else if (from == 'i' && to == 'k') ik += resource;
-        else if (from == 'j' && to == 'i') ji += resource;
-        else if (from == 'j' && to == 'k') jk += resource;
-        else if (from == 'k' && to == 'i') ki += resource;
-        else if (from == 'k' && to == 'j') kj += resource;
+        if (from == 'i' && to == 'j') IJ += resource;
+        else if (from == 'i' && to == 'k') IK += resource;
+        else if (from == 'j' && to == 'i') JI += resource;
+        else if (from == 'j' && to == 'k') JK += resource;
+        else if (from == 'k' && to == 'i') KI += resource;
+        else if (from == 'k' && to == 'j') KJ += resource;
     }
 
     public boolean isListen(char from) {
@@ -78,12 +78,12 @@ public class Snapshot {
     }
 
     private boolean isListen(char from, char to) {
-        if (from == 'i' && to == 'j') return isListenij;
-        else if (from == 'i' && to == 'k') return isListenik;
-        else if (from == 'j' && to == 'i') return isListenji;
-        else if (from == 'j' && to == 'k') return isListenjk;
-        else if (from == 'k' && to == 'i') return isListenki;
-        else if (from == 'k' && to == 'j') return isListenkj;
+        if (from == 'i' && to == 'j') return isListenIJ;
+        else if (from == 'i' && to == 'k') return isListenIK;
+        else if (from == 'j' && to == 'i') return isListenJI;
+        else if (from == 'j' && to == 'k') return isListenJK;
+        else if (from == 'k' && to == 'i') return isListenKI;
+        else if (from == 'k' && to == 'j') return isListenKJ;
         return false;
     }
 
@@ -92,12 +92,12 @@ public class Snapshot {
     }
 
     private void setListen(char from, char to) {
-        if (from == 'i' && to == 'j') isListenij = true;
-        else if (from == 'i' && to == 'k') isListenik = true;
-        else if (from == 'j' && to == 'i') isListenji = true;
-        else if (from == 'j' && to == 'k') isListenjk = true;
-        else if (from == 'k' && to == 'i') isListenki = true;
-        else if (from == 'k' && to == 'j') isListenkj = true;
+        if (from == 'i' && to == 'j') isListenIJ = true;
+        else if (from == 'i' && to == 'k') isListenIK = true;
+        else if (from == 'j' && to == 'i') isListenJI = true;
+        else if (from == 'j' && to == 'k') isListenJK = true;
+        else if (from == 'k' && to == 'i') isListenKI = true;
+        else if (from == 'k' && to == 'j') isListenKJ = true;
     }
 
     public void cancelListen(char from) {
@@ -105,29 +105,29 @@ public class Snapshot {
     }
 
     private void cancelListen(char from, char to) {
-        if (from == 'i' && to == 'j') isListenij = false;
-        else if (from == 'i' && to == 'k') isListenik = false;
-        else if (from == 'j' && to == 'i') isListenji = false;
-        else if (from == 'j' && to == 'k') isListenjk = false;
-        else if (from == 'k' && to == 'i') isListenki = false;
-        else if (from == 'k' && to == 'j') isListenkj = false;
+        if (from == 'i' && to == 'j') isListenIJ = false;
+        else if (from == 'i' && to == 'k') isListenIK = false;
+        else if (from == 'j' && to == 'i') isListenJI = false;
+        else if (from == 'j' && to == 'k') isListenJK = false;
+        else if (from == 'k' && to == 'i') isListenKI = false;
+        else if (from == 'k' && to == 'j') isListenKJ = false;
     }
 
     public static Snapshot getInstanceOfStartSnapshot(int snapshotId) {
         Snapshot snapshot = new Snapshot(snapshotId);
         switch (NODE) {
             case 'i':
-                snapshot.i = RESOURCE;
+                snapshot.I = RESOURCE;
                 snapshot.setListen('j');
                 snapshot.setListen('k');
                 break;
             case 'j':
-                snapshot.j = RESOURCE;
+                snapshot.J = RESOURCE;
                 snapshot.setListen('i');
                 snapshot.setListen('k');
                 break;
             case 'k':
-                snapshot.k = RESOURCE;
+                snapshot.K = RESOURCE;
                 snapshot.setListen('i');
                 snapshot.setListen('j');
                 break;
@@ -145,14 +145,14 @@ public class Snapshot {
     @Override
     public String toString() {
         return id +
-                "|" + i +
-                "|" + j +
-                "|" + k +
-                "|" + ij +
-                "|" + ji +
-                "|" + ik +
-                "|" + ki +
-                "|" + jk +
-                "|" + kj;
+                "|" + I +
+                "|" + J +
+                "|" + K +
+                "|" + IJ +
+                "|" + JI +
+                "|" + IK +
+                "|" + KI +
+                "|" + JK +
+                "|" + KJ;
     }
 }
