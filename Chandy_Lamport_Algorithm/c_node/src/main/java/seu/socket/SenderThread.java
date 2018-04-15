@@ -1,10 +1,10 @@
-package seu;
+package seu.socket;
 
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import static seu.ConfigUtil.getIP;
-import static seu.ConfigUtil.getPort;
+import static seu.utility.ConfigUtil.getIP;
+import static seu.utility.ConfigUtil.getPort;
 
 public class SenderThread implements Runnable {
 

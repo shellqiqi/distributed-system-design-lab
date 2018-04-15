@@ -1,10 +1,10 @@
-package seu;
+package seu.socket;
 
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
-import static seu.ConfigUtil.getPort;
+import static seu.utility.ConfigUtil.getPort;
 
 public class Receiver implements Runnable {
 

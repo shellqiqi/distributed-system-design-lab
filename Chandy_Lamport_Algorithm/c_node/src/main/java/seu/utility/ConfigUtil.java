@@ -1,13 +1,11 @@
-package seu;
+package seu.utility;
+
+import seu.pojo.Snapshot;
 
 import java.util.Random;
 import java.util.TreeMap;
 
 public class ConfigUtil {
-    // Resource of node x
-    public static int RESOURCE_I = 100;
-    public static int RESOURCE_J = 100;
-    public static int RESOURCE_K = 100;
     // Channel delay from x to y
     private final static int DELAY_IJ = 1000;
     private final static int DELAY_JI = 1300;
@@ -28,6 +26,25 @@ public class ConfigUtil {
     public static int SNAPSHOT_TIMES;
     public static Random RANDOM;
     public static TreeMap<Integer, Snapshot> SNAPSHOT_TABLE = new TreeMap<>();
+
+    public static char getOtherNode(char node1, char node2) {
+        if (node1 == 'i' && node2 == 'j') return 'k';
+        else if (node1 == 'j' && node2 == 'i') return 'k';
+        else if (node1 == 'i' && node2 == 'k') return 'j';
+        else if (node1 == 'k' && node2 == 'i') return 'j';
+        else if (node1 == 'j' && node2 == 'k') return 'i';
+        else if (node1 == 'k' && node2 == 'j') return 'i';
+        else return 0;
+    }
+
+    public static char[] getOtherNodes(char node) throws Exception {
+        switch (node) {
+            case 'i': return new char[] {'j', 'k'};
+            case 'j': return new char[] {'i', 'k'};
+            case 'k': return new char[] {'i', 'j'};
+            default: throw new Exception("Unsupported node name");
+        }
+    }
 
     public static String getIP() {
         return "127.0.0.1";

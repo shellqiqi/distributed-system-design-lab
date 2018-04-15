@@ -1,12 +1,16 @@
 package seu;
 
+import seu.pojo.Snapshot;
+import seu.simulation.SimulateApp;
+
+import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
-import static seu.ConfigUtil.*;
+import static seu.utility.ConfigUtil.*;
 
 public class App {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
         System.out.print("请输入对端IP：");
         OPPOSITE_IP = scanner.next();
@@ -17,12 +21,13 @@ public class App {
         System.out.print("请输入随机数种子：");
         RANDOM = new Random(scanner.nextInt());
 
-        System.out.println("启动Receiver");
-        Thread receiver = new Thread(new Receiver());
-        receiver.start();
-        System.out.println("Receiver启动结束");
+        System.out.println("快照答案：");
+        SimulateApp simulateApp = new SimulateApp();
+        for (Map.Entry<Integer, Snapshot> snapshot : simulateApp.snapshots.entrySet()) {
+            System.out.print(snapshot.getKey() + ": " + snapshot.getValue().toString() + " total: ");
+            System.out.println(snapshot.getValue().total());
+        }
 
-        receiver.join();
         System.out.println("主程序结束");
     }
 }

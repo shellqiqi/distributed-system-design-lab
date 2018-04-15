@@ -1,4 +1,6 @@
-package seu;
+package seu.socket;
+
+import seu.pojo.Snapshot;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -6,8 +8,6 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
-import static seu.ConfigUtil.*;
 
 public class ReceiverThread implements Runnable {
 
