@@ -20,14 +20,14 @@ public class SenderThread implements Runnable {
     @Override
     public void run() {
         try {
-            System.out.println("Send " + content + " to " + targetNode);
-            Thread.sleep(delay);
             Socket socket = new Socket(getIP(targetNode), getPort(targetNode));
+            Thread.sleep(delay);
             ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
             outputStream.writeObject(content);
             outputStream.flush();
             outputStream.close();
             socket.close();
+            System.out.println("Send " + content + " to " + targetNode);
         } catch (Exception e) {
             e.printStackTrace();
         }
