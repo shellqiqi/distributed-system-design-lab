@@ -5,6 +5,9 @@ import seu.simulation.SimulateApp;
 import seu.socket.Receiver;
 import seu.socket.Sender;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
@@ -23,11 +26,16 @@ public class App {
         System.out.print("请输入随机数种子：");
         RANDOM = new Random(scanner.nextInt());
 
+        BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(new File("result.txt")));
         System.out.println("快照答案：");
         SimulateApp simulateApp = new SimulateApp();
         for (Map.Entry<Integer, Snapshot> snapshot : simulateApp.snapshots.entrySet()) {
-            System.out.println(snapshot.getValue().toString() + " total: " + snapshot.getValue().total());
+            String log = snapshot.getValue().toString() + " total: " + snapshot.getValue().total() + "\n";
+            System.out.print(log);
+            outputStream.write(log.getBytes());
+            outputStream.flush();
         }
+        outputStream.close();
 
         Receiver receiver = new Receiver();
         Thread receiverThread = new Thread(receiver);
