@@ -26,8 +26,7 @@ public class App {
         System.out.println("快照答案：");
         SimulateApp simulateApp = new SimulateApp();
         for (Map.Entry<Integer, Snapshot> snapshot : simulateApp.snapshots.entrySet()) {
-            System.out.print(snapshot.getKey() + ": " + snapshot.getValue().toString() + " total: ");
-            System.out.println(snapshot.getValue().total());
+            System.out.println(snapshot.getValue().toString() + " total: " + snapshot.getValue().total());
         }
 
         Receiver receiver = new Receiver();

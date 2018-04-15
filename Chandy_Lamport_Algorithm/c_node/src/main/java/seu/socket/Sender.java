@@ -26,14 +26,28 @@ public class Sender implements Runnable {
     public void run() {
         try {
             for (SimulateMessage message : senderControlMessages) {
-                SenderThread senderThread = new SenderThread(message.from, message.toString());
-                Thread thread = new Thread(senderThread);
-                thread.start();
-                System.out.println("Send " + message.toString() + " to " + message.from);
-                Thread.sleep(message.time);
+                if (message.command == 5) {
+                    stop(message);
+                } else {
+                    SenderThread senderThread = new SenderThread(message.from, message.toString());
+                    Thread thread = new Thread(senderThread);
+                    thread.start();
+                    System.out.println("Send " + message.toString() + " to " + message.from);
+                    Thread.sleep(message.time);
+                }
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void stop(SimulateMessage message) {
+        for (char otherNode : new char[] {'i', 'j', 'k'}) {
+            SenderThread senderThread = new SenderThread(otherNode, message.toString());
+            Thread thread = new Thread(senderThread);
+            thread.start();
+            System.out.println("Send " + message.toString() + " to " + otherNode);
+            Receiver.enableServer = false;
         }
     }
 }

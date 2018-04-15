@@ -20,7 +20,7 @@ public class Snapshot {
     private boolean isListenKI;
     private boolean isListenJK;
     private boolean isListenKJ;
-    private int mergeCount = 0;
+    public int mergeCount = 0;
 
     public Snapshot(int id) {
         this.id = id;

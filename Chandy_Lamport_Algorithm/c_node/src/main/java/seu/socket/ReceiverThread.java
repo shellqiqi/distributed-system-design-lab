@@ -33,6 +33,7 @@ public class ReceiverThread implements Runnable {
                 lock.lock();
                 if (!SNAPSHOT_TABLE.containsKey(snapshot.id)) {
                     SNAPSHOT_TABLE.put(snapshot.id, snapshot);
+                    SNAPSHOT_TABLE.get(snapshot.id).mergeCount++;
                 } else {
                     SNAPSHOT_TABLE.get(snapshot.id).merge(snapshot);
                     if (SNAPSHOT_TABLE.get(snapshot.id).isComplete())

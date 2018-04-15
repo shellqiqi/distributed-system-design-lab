@@ -91,10 +91,10 @@ public class ReceiverThread implements Runnable {
         boolean containsSnapshot = SNAPSHOT_TABLE.containsKey(snapshotId);
         if (containsSnapshot) {
             SNAPSHOT_TABLE.get(snapshotId).cancelListen(sourceNode);
-            SNAPSHOT_TABLE.get(snapshotId).receivedCount++;
         } else {
             SNAPSHOT_TABLE.put(snapshotId, Snapshot.getInstanceOfGetSnapshot(sourceNode, snapshotId));
         }
+        SNAPSHOT_TABLE.get(snapshotId).receivedCount++;
         lock.unlock();
         if (!containsSnapshot) broadcastSnapshots(snapshotId);
         if (containsSnapshot && SNAPSHOT_TABLE.get(snapshotId).isComplete()) {
