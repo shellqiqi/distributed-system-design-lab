@@ -12,6 +12,10 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import static seu.utility.ConfigUtil.*;
 
+/**
+ * Receive message from c node and p node.
+ * Process business logic.
+ */
 public class ReceiverThread implements Runnable {
 
     private Socket socket;
@@ -19,6 +23,12 @@ public class ReceiverThread implements Runnable {
 
     private Lock lock = new ReentrantLock();
 
+    /**
+     * Construct a receive thread to process received snapshot.
+     *
+     * @param socket socket Receive gives.
+     * @throws IOException throw when socket error occurs.
+     */
     public ReceiverThread(Socket socket) throws IOException {
         this.socket = socket;
         inputStream = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
@@ -45,9 +55,10 @@ public class ReceiverThread implements Runnable {
                         getSnapshot(message.node, message.snapshotId);
                         break;
                     case 5:
-                    default:
                         shutdown();
                         break;
+                    default:
+                        throw new Exception("Unsupported message command");
                 }
             }
             inputStream.close();
@@ -57,6 +68,12 @@ public class ReceiverThread implements Runnable {
         }
     }
 
+    /**
+     * Send resource to target node.
+     *
+     * @param targetNode target node.
+     * @param resource   resource.
+     */
     private void sendResourceThroughChannel(char targetNode, int resource) {
         lock.lock();
         RESOURCE -= resource;
@@ -67,6 +84,12 @@ public class ReceiverThread implements Runnable {
         thread.start();
     }
 
+    /**
+     * Start a snapshot.
+     *
+     * @param snapshotId snapshot id.
+     * @throws Exception throw when local node name is unsupported.
+     */
     private void startSnapshot(int snapshotId) throws Exception {
         lock.lock();
         SNAPSHOT_TABLE.put(snapshotId, Snapshot.getInstanceOfStartSnapshot(snapshotId));
@@ -74,6 +97,12 @@ public class ReceiverThread implements Runnable {
         broadcastSnapshots(snapshotId);
     }
 
+    /**
+     * Get resource.
+     *
+     * @param sourceNode node resource send from.
+     * @param resource   resource.
+     */
     private void getResource(char sourceNode, int resource) {
         lock.lock();
         RESOURCE += resource;
@@ -86,6 +115,13 @@ public class ReceiverThread implements Runnable {
         lock.unlock();
     }
 
+    /**
+     * Get a snapshot.
+     *
+     * @param sourceNode node snapshot send from.
+     * @param snapshotId snapshot id.
+     * @throws Exception throw when local node name is unsupported.
+     */
     private void getSnapshot(char sourceNode, int snapshotId) throws Exception {
         lock.lock();
         boolean containsSnapshot = SNAPSHOT_TABLE.containsKey(snapshotId);
@@ -104,10 +140,19 @@ public class ReceiverThread implements Runnable {
         }
     }
 
+    /**
+     * Shutdown the main thread.
+     */
     private void shutdown() {
         Receiver.enableServer = false;
     }
 
+    /**
+     * Broadcast snapshots to other nodes.
+     *
+     * @param snapshotId snapshot id.
+     * @throws Exception throw when local node name is unsupported.
+     */
     private void broadcastSnapshots(int snapshotId) throws Exception {
         Message message = Message.getInstanceOfSnapshot(snapshotId);
         for (char targetNode :

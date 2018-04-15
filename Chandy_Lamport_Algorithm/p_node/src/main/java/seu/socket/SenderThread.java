@@ -3,14 +3,27 @@ package seu.socket;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import static seu.utility.ConfigUtil.*;
+import static seu.utility.ConfigUtil.getIP;
+import static seu.utility.ConfigUtil.getPort;
 
+/**
+ * Sending message string to target.
+ */
 public class SenderThread implements Runnable {
 
     private char targetNode;
     private String content;
     private int delay;
 
+    /**
+     * Construct sender thread that send message to
+     * the given target node with message content.
+     * Delay due to channel from local node to target node.
+     *
+     * @param targetNode the target node.
+     * @param content    the content.
+     * @param delay      then channel delay.
+     */
     public SenderThread(char targetNode, String content, int delay) {
         this.targetNode = targetNode;
         this.content = content;

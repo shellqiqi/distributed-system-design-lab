@@ -91,7 +91,7 @@ public class ConfigUtil {
                 return OPPOSITE_IP;
             case 'k':
             case 'c':
-                return "127.0.0.1";
+                return getIP();
             default:
                 throw new Exception("Unsupported node name");
         }
@@ -127,16 +127,6 @@ public class ConfigUtil {
             default:
                 throw new Exception("Unsupported node name");
         }
-    }
-
-    /**
-     * Get channel delay from local to the given node.
-     *
-     * @param to target node.
-     * @return delay millisecond.
-     */
-    public static int getDelay(char to) {
-        return getDelay(NODE, to);
     }
 
     /**

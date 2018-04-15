@@ -1,7 +1,7 @@
 package seu.simulation;
 
 /**
- * Simulate message.
+ * Simulate message among c node and p nodes.
  */
 public class SimulateMessage implements Comparable<SimulateMessage> {
     public int command;

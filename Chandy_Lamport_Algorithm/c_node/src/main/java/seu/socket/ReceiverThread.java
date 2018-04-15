@@ -21,6 +21,12 @@ public class ReceiverThread implements Runnable {
 
     private Lock lock = new ReentrantLock();
 
+    /**
+     * Construct a receive thread to process received snapshot.
+     *
+     * @param socket socket Receive gives.
+     * @throws IOException throw when socket error occurs.
+     */
     public ReceiverThread(Socket socket) throws IOException {
         this.socket = socket;
         inputStream = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));

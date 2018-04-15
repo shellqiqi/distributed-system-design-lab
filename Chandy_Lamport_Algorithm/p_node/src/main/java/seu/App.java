@@ -4,7 +4,8 @@ import seu.socket.Receiver;
 
 import java.util.Scanner;
 
-import static seu.utility.ConfigUtil.*;
+import static seu.utility.ConfigUtil.NODE;
+import static seu.utility.ConfigUtil.OPPOSITE_IP;
 
 public class App {
     public static void main(String[] args) throws InterruptedException {

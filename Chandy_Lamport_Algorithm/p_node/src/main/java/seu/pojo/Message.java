@@ -1,13 +1,21 @@
 package seu.pojo;
 
-import static seu.utility.ConfigUtil.*;
+import static seu.utility.ConfigUtil.NODE;
 
+/**
+ * Message between p nodes.
+ */
 public class Message {
     public int command;
     public char node;
     public int resource;
     public int snapshotId;
 
+    /**
+     * Construct from the string.
+     *
+     * @param message the string.
+     */
     public Message(String message) {
         String[] splits = message.split("\\|");
         command = Integer.parseInt(splits[0]);
@@ -33,10 +41,22 @@ public class Message {
         }
     }
 
+    /**
+     * Get an instance of message for resource transmission.
+     *
+     * @param resource resource to transmit.
+     * @return an instance of message.
+     */
     public static Message getInstanceOfResourceTransmit(int resource) {
         return new Message(3 + "|" + NODE + "|" + resource);
     }
 
+    /**
+     * Get an instance of message for snapshot.
+     *
+     * @param snapshotId snapshot id.
+     * @return an instance of message.
+     */
     public static Message getInstanceOfSnapshot(int snapshotId) {
         return new Message(4 + "|" + NODE + "|" + snapshotId);
     }

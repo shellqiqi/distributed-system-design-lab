@@ -7,7 +7,7 @@ import java.net.SocketTimeoutException;
 import static seu.utility.ConfigUtil.getPort;
 
 /**
- * Receiver handles all sockets and transfer to every
+ * Receiver handles all sockets and transfer them to every
  * instance of ReceiverThread.
  */
 public class Receiver implements Runnable {
