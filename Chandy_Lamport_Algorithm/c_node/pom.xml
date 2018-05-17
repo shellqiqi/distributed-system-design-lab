@@ -6,7 +6,7 @@
 
   <groupId>seu</groupId>
   <artifactId>c_node</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
 
   <name>c_node</name>
   <url>http://www.example.com</url>
