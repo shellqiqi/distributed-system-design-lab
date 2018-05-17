@@ -16,7 +16,6 @@ public class SimulateApp {
     public Vector<SimulateMessage> controlMessageSequence = new Vector<>();
     public TreeMap<Integer, Snapshot> snapshots = new TreeMap<>();
     private Vector<SimulateMessage> arrivedMessageSequence = new Vector<>();
-    private static int TOLERATE = 100;
 
     /**
      * Get an simulation.

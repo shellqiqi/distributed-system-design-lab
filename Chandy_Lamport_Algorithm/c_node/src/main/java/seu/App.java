@@ -25,6 +25,8 @@ public class App {
         SNAPSHOT_TIMES = scanner.nextInt();
         System.out.print("请输入随机数种子：");
         RANDOM = new Random(scanner.nextInt());
+        System.out.print("请输入最小时间间隔：");
+        TOLERATE = scanner.nextInt();
 
         BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(new File("result.txt")));
         System.out.println("快照答案：");

@@ -32,6 +32,7 @@ public class ConfigUtil {
     public static Random RANDOM;
     public static TreeMap<Integer, Snapshot> SNAPSHOT_TABLE = new TreeMap<>();
     public static SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SSS");
+    public static int TOLERATE = 100;
 
     /**
      * Get the node besides the given nodes.
