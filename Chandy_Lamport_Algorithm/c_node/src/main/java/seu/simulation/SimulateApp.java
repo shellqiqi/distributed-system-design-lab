@@ -16,6 +16,7 @@ public class SimulateApp {
     public Vector<SimulateMessage> controlMessageSequence = new Vector<>();
     public TreeMap<Integer, Snapshot> snapshots = new TreeMap<>();
     private Vector<SimulateMessage> arrivedMessageSequence = new Vector<>();
+    private static int TOLERATE = 100;
 
     /**
      * Get an simulation.
@@ -23,6 +24,10 @@ public class SimulateApp {
      * @throws Exception throw when exist unsupported node name.
      */
     public SimulateApp() throws Exception {
+        while (generateControlMessageSequence()) ;
+    }
+
+    private boolean generateControlMessageSequence() throws Exception {
         // 生成 控制消息序列 快照 下标
         Vector<Integer> command2 = new Vector<>();
         while (command2.size() < SNAPSHOT_TIMES) {
@@ -42,9 +47,12 @@ public class SimulateApp {
                 // 命令码1 资源转移消息
             else
                 controlMessageSequence.add(new SimulateMessage(1, absoluteTime));
-            absoluteTime += getRandomInterval(5);
+            // 保证间隔大于阈值
+            long interval;
+            while ((interval = getRandomInterval(5)) > TOLERATE) {
+                absoluteTime += interval; break;
+            }
         }
-        // TODO: 加入snapshot
         // 补全 控制消息序列 参数
         // 通过 控制消息序列 生成 全体消息序列
         int[] resources = new int[]{100, 100, 100};
@@ -53,6 +61,14 @@ public class SimulateApp {
             // 处理在先发生的消息
             if (arrivedMessageSequence.size() > 0 &&
                     controlMessageSequence.elementAt(i).time >= arrivedMessageSequence.firstElement().time) {
+                // 间隔低于阈值 重新生成
+                if (controlMessageSequence.elementAt(i).time - arrivedMessageSequence.firstElement().time < TOLERATE) {
+                    controlMessageSequence.clear();
+                    snapshots.clear();
+                    arrivedMessageSequence.clear();
+                    return true;
+                }
+                // 间隔大于阈值 继续处理
                 SimulateMessage firstArrivedMessage = arrivedMessageSequence.firstElement();
                 if (firstArrivedMessage.command == 3) { // 命令码 3 资源转移
                     // 修改资源
@@ -154,6 +170,7 @@ public class SimulateApp {
                     i++;
             }
         }
+        return false;
     }
 
     /**
