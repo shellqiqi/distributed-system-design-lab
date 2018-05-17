@@ -127,6 +127,7 @@ public class ReceiverThread implements Runnable {
         lock.lock();
         boolean containsSnapshot = SNAPSHOT_TABLE.containsKey(snapshotId);
         if (containsSnapshot) {
+            SNAPSHOT_TABLE.get(snapshotId).receivedCount++;
             SNAPSHOT_TABLE.get(snapshotId).cancelListen(sourceNode);
         } else {
             Snapshot snapshot = Snapshot.getInstanceOfGetSnapshot(sourceNode, snapshotId);
